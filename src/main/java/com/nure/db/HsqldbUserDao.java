@@ -43,7 +43,7 @@ public class HsqldbUserDao implements UserDao {
             PreparedStatement statement = connection.prepareStatement(INSERT_QUERY);
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
-            statement.setDate(3, new Date(user.getDateOfBirthday().getTime()));
+            statement.setDate(3, new Date(user.getDateOfBirth().getTime()));
             int n = statement.executeUpdate();
             if (n != 1) {
                 throw new DatabaseException("Number of the inserted rows: " + n);
@@ -73,7 +73,7 @@ public class HsqldbUserDao implements UserDao {
 
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
-            statement.setDate(3, new Date(user.getDateOfBirthday().getTime()));
+            statement.setDate(3, new Date(user.getDateOfBirth().getTime()));
             statement.setLong(4, user.getId());
 
             int n = statement.executeUpdate();
@@ -126,7 +126,7 @@ public class HsqldbUserDao implements UserDao {
             userRes.setId(new Long(result.getLong(1)));
             userRes.setFirstName(result.getString(2));
             userRes.setLastName(result.getString(3));
-            userRes.setDateOfBirthday(result.getDate(4));
+            userRes.setDateOfBirth(result.getDate(4));
             result.close();
             connection.close();
             statement.close();
@@ -151,7 +151,7 @@ public class HsqldbUserDao implements UserDao {
                 user.setId(new Long(resultSet.getLong(1)));
                 user.setFirstName(resultSet.getString(2));
                 user.setLastName(resultSet.getString(3));
-                user.setDateOfBirthday(resultSet.getDate(4));
+                user.setDateOfBirth(resultSet.getDate(4));
                 result.add(user);
             }
             statement.close();

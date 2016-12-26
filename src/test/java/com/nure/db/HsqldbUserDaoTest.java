@@ -2,6 +2,7 @@ package test.java.com.nure.db;
 
 import main.java.com.nure.User;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 import junit.framework.TestCase;
@@ -29,7 +30,7 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
         dao = new HsqldbUserDao(connectionFactory);
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(1984, Calendar.MAY, 26);
+        calendar.set(1997, Calendar.MAY, 31);
         tempDate = calendar.getTime();
     }
 
@@ -38,7 +39,7 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
             User user = new User();
             user.setFirstName("John");
             user.setLastName("Doe");
-            user.setDateOfBirthday(tempDate);
+            user.setDateOfBirth(tempDate);
 
             assertNull(user.getId());
 
@@ -62,15 +63,12 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
         }
     }
 
-    public void testFind() {
+    public void testFind(){
         try {
-            User user = new User();
-            user.setFirstName("John");
-            user.setLastName("Doe");
-            user.setDateOfBirthday(tempDate);
-            user = dao.create(user);
-            User tempUser = dao.find(user.getId());
-            assertEquals("Found wrong user", tempUser.getLastName(), user.getLastName());
+            User tempUser = dao.find(new Long(1000));
+            assertEquals("Incorrect first name", tempUser.getFirstName(), "Bill");
+            assertEquals("Incorrect last name", tempUser.getLastName(), "Gates");
+            assertEquals("Incorrect date", tempUser.getDateOfBirth().toString(), "1968-04-26");
         } catch (DatabaseException e) {
             e.printStackTrace();
             fail(e.toString());
@@ -82,16 +80,15 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
             User user = new User();
             user.setFirstName("Marti");
             user.setLastName("Luter");
-            user.setDateOfBirthday(tempDate);
+            user.setId(new Long(1000));
+            user.setDateOfBirth(tempDate);
 
-            User userTest = dao.create(user);
-            userTest.setFirstName("Ivan");
-            userTest.setLastName("Groaznyi");
-            userTest.setDateOfBirthday(tempDate);
-            userTest.setId(user.getId());
+            dao.update(user);
 
-            dao.update(userTest);
-
+            User tempUser = dao.find(new Long(1000));
+            assertEquals("Incorrect first name", tempUser.getFirstName(), "Marti");
+            assertEquals("Incorrect last name", tempUser.getLastName(), "Luter");
+            assertEquals("Incorrect date", tempUser.getDateOfBirth().toString(), "1984-05-26");
         } catch (DatabaseException e) {
             e.printStackTrace();
             fail(e.toString());
@@ -99,16 +96,14 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
     }
 
 
-    public void testDelete() {
+    public void testDelete(){
         try {
             User user = new User();
 
             user.setFirstName("John");
             user.setLastName("Doe");
-            user.setDateOfBirthday(tempDate);
-
-            user = dao.create(user);
-
+            user.setDateOfBirth(tempDate);
+            user.setId(new Long(1000));
             dao.delete(user);
 
         } catch (DatabaseException e) {
@@ -122,9 +117,12 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
         connectionFactory = new ConnectionFactoryImpl("org.hsqldb.jdbcDriver", "jdbc:hsqldb:file:db/usermanagement", "sa", "");
         return new DatabaseConnection(connectionFactory.createConnection());
     }
+
+    @Override
     protected IDataSet getDataSet() throws Exception {
         IDataSet dataSet = new XmlDataSet(getClass().getClassLoader().getResourceAsStream("usersDataSet.xml"));
         return dataSet;
     }
+
 
 }

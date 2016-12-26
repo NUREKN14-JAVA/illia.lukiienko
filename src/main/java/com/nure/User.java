@@ -3,15 +3,29 @@ package main.java.com.nure;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by Илья on 09.10.2016.
- */
 public class User {
 
     private Long id;
     private String firstName;
     private String lastName;
-    private Date dateOfBirthday;
+    private Date dateOfBirth;
+
+    public User(String firstName, String LastName, Date date){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = date;
+    }
+
+    public User(Long id, String firstName, String LastName, Date date){
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = date;
+    }
+
+    public User() {
+        // TODO Auto-generated constructor stub
+    }
 
     public Long getId() {
         return id;
@@ -37,24 +51,43 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Date getDateOfBirthday() {
-        return dateOfBirthday;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDateOfBirthday(Date dateOfBirthday) {
-        this.dateOfBirthday = dateOfBirthday;
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public Object getFullName() {
-        return getLastName() + ", " + getFirstName();
+        return getLastName() + ", "+ getFirstName();
     }
 
     public int getAge() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         int currentYear = calendar.get(Calendar.YEAR);
-        calendar.setTime(getDateOfBirthday());
+        calendar.setTime(getDateOfBirth());
         int year = calendar.get(Calendar.YEAR);
-        return currentYear - year;
+        return currentYear-year;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        if (this.getId() == null && ((User) obj).getId() == null) {
+            return true;
+        }
+        return this.getId().equals(((User) obj).getId());
+    }
+    public int hashCode() {
+        if (this.getId() == null) {
+            return 0;
+        }
+        return this.getId().hashCode();
     }
 }
