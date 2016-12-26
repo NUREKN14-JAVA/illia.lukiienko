@@ -1,4 +1,4 @@
-package main.java.com.nure.lukienkoilya;
+package main.java.com.nure;
 
 import java.util.Calendar;
 import java.util.Date;

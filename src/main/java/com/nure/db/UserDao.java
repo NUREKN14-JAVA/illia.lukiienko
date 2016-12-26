@@ -1,7 +1,7 @@
-package main.java.com.nure.lukienkoilya.db;
+package main.java.com.nure.db;
 
 
-import main.java.com.nure.lukienkoilya.User;
+import main.java.com.nure.User;
 
 import java.util.Collection;
 
@@ -15,4 +15,6 @@ public interface UserDao {
     User find(Long id) throws DatabaseException;
 
     Collection findAll() throws DatabaseException;
+
+    void setConnectionFactory(ConnectionFactory connectionFactory);
 }

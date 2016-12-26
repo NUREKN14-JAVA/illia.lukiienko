@@ -1,4 +1,4 @@
-package main.java.com.nure.lukienkoilya.db;
+package main.java.com.nure.db;
 
 
 public class DatabaseException extends  Exception {
