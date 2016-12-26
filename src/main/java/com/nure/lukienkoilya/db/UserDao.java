@@ -5,8 +5,7 @@ import main.java.com.nure.lukienkoilya.User;
 
 import java.util.Collection;
 
-public interface UserDao{
-
+public interface UserDao {
     User create(User user) throws DatabaseException;
 
     void update(User user) throws DatabaseException;
@@ -15,5 +14,5 @@ public interface UserDao{
 
     User find(Long id) throws DatabaseException;
 
-    Collection<?> findAll() throws DatabaseException;
+    Collection findAll() throws DatabaseException;
 }
